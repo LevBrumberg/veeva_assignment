@@ -18,6 +18,10 @@ data "aws_secretsmanager_secret_version" "db_master_password" {
   secret_id = data.aws_secretsmanager_secret.db_master_password.id
 }
 
+data "aws_ssm_parameter" "api_ami" {
+  name = "/ecommerce/dev/ami/api"
+}
+
 module "network" {
   source = "../../modules/network"
 
@@ -37,7 +41,7 @@ module "compute" {
 
   vpc_id = module.network.vpc_id
   app_port = 8080
-  ami_id   = var.ami_id
+  ami_id   = data.aws_ssm_parameter.api_ami.value
   private_subnet_ids = module.network.private_app_subnet_ids
   public_subnet_ids = module.network.public_subnet_ids
   db_password_secret_arn = data.aws_secretsmanager_secret.db_master_password.arn

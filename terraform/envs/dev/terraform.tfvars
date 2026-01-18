@@ -19,4 +19,3 @@ private_db_subnet_cidrs = [
   "10.0.20.0/24",
   "10.0.21.0/24"
 ]
-ami_id = "ami-0abcdef1234567890"
